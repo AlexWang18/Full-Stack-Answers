@@ -1,68 +1,59 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-const course = () =>( //short hand
-  <>
-  <h3>Half Stack application development</h3>
-  </>
-)
+const Header = ({ course }) => {
+  console.log({ course })
+  return <p>{course}</p>
+}
 
-const e1 = ({num}) => (
-  
-  <>
-  
-  <h1>
-    Fundamentals of React
-  </h1>
-  <p>
-    Num of exercises: 10
-  </p>
+// wow i screwed up syntax man
+const Content = (prop) => {
+  prop.parts.forEach(element => {
+    console.log(element)
+  });
+  console.log(prop.parts[0])
+  return <>
+    <p> {prop.parts[0].name} </p>
+    <p> {prop.parts[1].name} </p>
+    <p> {prop.parts[2].name} </p>
   </>
-)
-const e2 = (props) => {
+}
+
+const Total = (props) => {
+  // why does the fragment/root elemeent need to be on the same line like this or else it doesnt detect anything, could use () paren?
+  return <>
+    <p>Total exercises is </p>
+    <p>{props.parts[0].exercises} + {props.parts[1].exercises} +  {props.parts[2].exercises}</p>
+  </>
+}
+
+const App = () => {
+
+  const course = 'Half Stack application development'
+
+  //array to hold indiv objects
+  const parts = [
+    {
+      name: 'Fundamentals of React',
+      exercises: 10
+    },
+    {
+      name: 'Using props to pass data',
+      exercises: 7
+    },
+    {
+      name: 'State of a component',
+      exercises: 14
+    }
+  ]
+
   return (
     <div>
-      <h1>
-    {props.name}
-  </h1>
-  <p>
-    Num of exercises: {props.num}
-  </p>
+      <Header course = {course}/>
+      <Content parts = {parts}/>
+      <Total parts = {parts}/>
     </div>
   )
 }
 
-const e3 = (props) => (
-  
-    <>
-    <h1>
-      {props.name}
-    </h1>
-    <p>
-      Num of exercises: {props.num}
-    </p>
-    </>
-  
-)
-  
-
-const Content = () => {
-  
-  const part2 = 'Using props to pass data'
-  const exercises2 = 7
-  const part3 = 'State of a component'
-  const exercises3 = 14
-
-  return (
-    <>
-    <course />
-
-    <e1/>
-    <e2 name = {part2} num = {exercises2}/>
-    <e3 name = {part3} num = {exercises3}/>
-    <p>Number of exercies {exercises1+exercises2+exercises3}</p>
-    </>
-  )
-}
-
-ReactDOM.render(<Content/>, document.getElementById("root"))
+ReactDOM.render(<App />, document.getElementById("root"))
