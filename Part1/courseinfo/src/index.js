@@ -1,3 +1,4 @@
+// local host not connecting use code sandbox
 import React from 'react';
 import ReactDOM from 'react-dom';
 
@@ -22,18 +23,18 @@ const Content = (prop) => {
 const Total = (props) => {
   // why does the fragment/root elemeent need to be on the same line like this or else it doesnt detect anything, could use () paren?
   return <>
-    <p>Total exercises is </p>
-    <p>{props.parts[0].exercises} + {props.parts[1].exercises} +  {props.parts[2].exercises}</p>
+    <p>Total exercises is {props.parts[0].exercises} + {props.parts[1].exercises} +  {props.parts[2].exercises} </p>
   </>
 }
 
 const App = () => {
 
-  const course = 'Half Stack application development'
+  //One large JS object with key value pair properties 
+  const course = {
 
-  //array to hold indiv objects
-  const parts = [
-    {
+    name: 'Half Stack application development',
+    parts: [
+      {
       name: 'Fundamentals of React',
       exercises: 10
     },
@@ -44,14 +45,14 @@ const App = () => {
     {
       name: 'State of a component',
       exercises: 14
-    }
-  ]
+    } ]
+  }
 
   return (
     <div>
-      <Header course = {course}/>
-      <Content parts = {parts}/>
-      <Total parts = {parts}/>
+      <Header course = {course.name}/>
+      <Content parts = {course.parts}/>
+      <Total parts = {course.parts}/>
     </div>
   )
 }
