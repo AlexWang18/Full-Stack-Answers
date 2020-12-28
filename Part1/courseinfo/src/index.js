@@ -2,16 +2,19 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-const Header = ({ course }) => {
-  console.log({ course })
-  return <p>{course}</p>
+const Header = (course) => {
+
+  return <p>{course.thename}</p>
+
 }
 
 // wow i screwed up syntax man
 const Content = (prop) => {
+
   prop.parts.forEach(element => {
     console.log(element)
   });
+
   console.log(prop.parts[0])
   return <>
     <p> {prop.parts[0].name} </p>
@@ -20,10 +23,10 @@ const Content = (prop) => {
   </>
 }
 
-const Total = (props) => {
+const Total = ({parts}) => {
   // why does the fragment/root elemeent need to be on the same line like this or else it doesnt detect anything, could use () paren?
   return <>
-    <p>Total exercises is {props.parts[0].exercises} + {props.parts[1].exercises} +  {props.parts[2].exercises} </p>
+    <p>Total exercises is {parts[0].exercises} + {parts[1].exercises} +  {parts[2].exercises} </p>
   </>
 }
 
@@ -35,24 +38,24 @@ const App = () => {
     name: 'Half Stack application development',
     parts: [
       {
-      name: 'Fundamentals of React',
-      exercises: 10
-    },
-    {
-      name: 'Using props to pass data',
-      exercises: 7
-    },
-    {
-      name: 'State of a component',
-      exercises: 14
-    } ]
+        name: 'Fundamentals of React',
+        exercises: 10
+      },
+      {
+        name: 'Using props to pass data',
+        exercises: 7
+      },
+      {
+        name: 'State of a component',
+        exercises: 14
+      }],
   }
 
   return (
     <div>
-      <Header course = {course.name}/>
-      <Content parts = {course.parts}/>
-      <Total parts = {course.parts}/>
+      <Header thename={course.name} />
+      <Content parts={course.parts} />
+      <Total parts={course.parts} />
     </div>
   )
 }
