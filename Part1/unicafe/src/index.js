@@ -54,7 +54,7 @@ const App = () => {
 
   let arr = [good, neutral, bad, total] //hold counts in array
 
-  const increment = (func, num) => {
+  const increment = (func, num) => { //didnt really have to do this, didnt need to hold the state of total
     setTotal(total + 1)
     return func(num + 1)
   }
