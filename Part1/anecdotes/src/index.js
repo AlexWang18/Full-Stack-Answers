@@ -9,9 +9,13 @@ const Button = ({action, text}) => {
   )
 }
 
-const DisplayVotes = ({numOfVotes}) => {
+const DisplayAnecedote = ({header, text, numVotes}) => {
   return (
-    <p>has {numOfVotes} votes</p>
+    <div>
+      <h1>{header}</h1> 
+      <p>{text}</p>
+      <p>has {numVotes} votes</p>
+    </div>
   )
 }
 
@@ -29,10 +33,7 @@ const App = (props) => {
     setSelected(num) 
   }
   
-  console.log('arr',votes)
-
   const vote = () => {
-    
     let copy = [... votes]
     copy[selected] += 1
     setVote(copy) //set the state of votes to the newly copied Array 
@@ -45,8 +46,9 @@ const App = (props) => {
     for (let i = 0; i < votes.length; i++) {
       if(votes[i] > votes[maxIndex])
         maxIndex = i
+      console.log(votes[maxIndex])
     }
-    console.log(maxIndex)
+    
     return maxIndex
   }
 
@@ -60,17 +62,6 @@ const App = (props) => {
       <DisplayAnecedote header = "Anecdote with most votes" text = {props.anecdotes[ourMax]} numVotes = {votes[ourMax]} />
     </div>
   )
-}
-
-const DisplayAnecedote = ({header, text, numVotes}) => {
-    return (
-      <div>
-        <h1>{header}</h1> 
-        <p>{text}</p>
-        <p>has {numVotes} votes</p>
-      </div>
-    )
-    
 }
 
 const anecdotes = [
