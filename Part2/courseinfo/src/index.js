@@ -54,6 +54,7 @@ const App = () => {
         <li key={course.id}>
           {<Course course={course} />}
         </li>)}
+      <button onClick = {() => console.log('hi')}> hi </button>
     </div>
   )
 }
