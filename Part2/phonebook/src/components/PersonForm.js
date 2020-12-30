@@ -1,40 +1,18 @@
+import React, {useState} from 'react'
 
-const PersonForm = ({ event }) => {
-    const [persons, setPersons] = useState([
-        { name: 'Arto Hellas', number: '040-123456' },
-        { name: 'Ada Lovelace', number: '39-44-5323523' },
-        { name: 'Dan Abramov', number: '12-43-234345' },
-        { name: 'Mary Poppendieck', number: '39-23-6423122' }
-    ])
-    const [newName, setNewName] = useState('')
+/* I tried to declare event handlers inside this seperate class but had difficulty than returning the 
+//state of the persons back to the App component to render, forced to pass them as props so they can be shared across components
+*/
 
-    const addPerson = () => {
+const Form = (props) => {
 
-        event.preventDefault();
-
-        if (persons.some(p => p.name === newName)) {
-            console.log('not cool');
-            window.alert(`${newName} is already added to phonebook`);
-            return;
-        }
-
-        const personObj = {
-            name: newName.trim(),
-            date: new Date().toISOString,
-            number: newNum,
-            id: persons.length + 1
-        }
-        //copy the newly created object to new array 
-        setPersons(persons.concat(personObj))
-        setNewName('') //resets the value of input
-    }
     return (
-        <form onSubmit={addPerson}>
+        <form onSubmit={props.addPerson}>
             <div>
-                name: <input value={newName} onChange={handleNewP} />
+                name: <input value={props.newName} onChange={props.handleName} />
             </div>
             <div>
-                number: <input value={newNum} onChange={handleNewNum} />
+                number: <input value={props.newNum} onChange={props.handleNum} />
             </div>
             <div>
                 <button type="submit">add</button>
@@ -43,4 +21,6 @@ const PersonForm = ({ event }) => {
     )
 }
 
-export default PersonForm
+export {
+    Form
+}

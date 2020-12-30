@@ -1,10 +1,11 @@
 import React, { useState } from 'react'
 import ReactDOM from 'react-dom'
-import PersonForm from './components/Phonebook'
+import PersonForm, { Form } from './components/PersonForm'
 import Persons from './components/DisplayPersons'
-
+import Filter from './components/Filter'
 
 const App = () => {
+
   const [persons, setPersons] = useState([
     { name: 'Arto Hellas', number: '040-123456' },
     { name: 'Ada Lovelace', number: '39-44-5323523' },
@@ -17,7 +18,14 @@ const App = () => {
   const [filter, setFilter] = useState('')
   const [showFilter, setShowed] = useState(false)
 
-  /* event param is the event that triggers the call to the callback */
+  const handleNewName = (event) => {
+    setNewName(event.target.value)
+  }
+
+  const handleNewNum = (event) => {
+    setNewNum(event.target.value)
+  }
+
   const addPerson = (event) => {
     event.preventDefault();
 
@@ -26,56 +34,34 @@ const App = () => {
       window.alert(`${newName} is already added to phonebook`);
       return;
     }
-
     const personObj = {
       name: newName.trim(),
       date: new Date().toISOString,
       number: newNum,
       id: persons.length + 1
     }
-    //copy the newly created object to new array 
+    console.log(newName, newNum)
     setPersons(persons.concat(personObj))
     setNewName('') //resets the value of input
   }
 
-  const handleNewP = (event) => {
-    console.log(event.target)
-    setNewName(event.target.value) //change the state of name
-  }
-
-  const handleNewNum = (event) => {
-    console.log(event.target.value)
-    setNewNum(event.target.value)
-  }
-
   const handleFilter = (event) => {
     setFilter(event.target.value)
+    console.log(event.target.value)
     setShowed(true)
-    console.log(persons.filter(p => p.name.toLowerCase().includes(filter) || p.number.toLowerCase().includes(filter)))
   }
 
-  
   const filterMatch = new RegExp(filter, 'i')
   return (
     <div>
       <h2>Phonebook</h2>
-      <form >
-        <div>
-          filter shown with <input value={filter} onChange={handleFilter} />
-        </div>
-      </form>
-      <h2>add a new</h2>
-      <form onSubmit={addPerson}>
-        <div>
-          name: <input value={newName} onChange={handleNewP} />
-        </div>
-        <div>
-          number: <input value={newNum} onChange={handleNewNum} />
-        </div>
-        <div>
-          <button type="submit">add</button>
-        </div>
-      </form>
+
+      <Filter filter={filter} filterHandler={handleFilter} />
+      <h2>Add a new entry</h2>
+      <Form addPerson={addPerson}
+        handleName={handleNewName} handleNum={handleNewNum}
+        newName={newName} newNum={newNum} />
+
       <h2>Numbers</h2>
       <Persons persons={showFilter ?
         persons.filter(p => p.name.match(filterMatch) || p.number.match(filterMatch))
