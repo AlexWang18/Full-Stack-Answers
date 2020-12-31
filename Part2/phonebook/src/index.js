@@ -62,7 +62,7 @@ const App = () => {
         handleName={handleNewName} handleNum={handleNewNum}
         newName={newName} newNum={newNum} />
 
-      <h2>Numbers</h2>
+      <h2>Numbers</h2>   
       <Persons persons={showFilter ?
         persons.filter(p => p.name.match(filterMatch) || p.number.match(filterMatch))
         : persons} />
