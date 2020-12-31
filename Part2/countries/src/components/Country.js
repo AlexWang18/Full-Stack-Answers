@@ -4,7 +4,7 @@ import Button from './Button'
 const Country = ({c, handleClick}) => {
     return (
         <li>
-            {c.name} <Button handleShow = {() => <Solo single = {c}/>} />
+            {c.name} <Button handleShow = {handleClick} />
         </li>
     )
 }
@@ -20,7 +20,7 @@ const Solo = ({ single }) => { //oops was not uppercase was not recognized
             <ul>
                 {single.languages.map(l => <Language language={l} />)}
             </ul>
-            <img src={single.flag}></img>
+            <img src={single.flag} alt = {single.name + ' flag'}></img>
         </>
     )
 }

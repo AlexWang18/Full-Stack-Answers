@@ -19,6 +19,7 @@ const App = () => {
       .then(response => {
         console.log('status', response.status)
         setCountries(response.data)
+        console.log(response.data)
       })
   }
 
@@ -30,8 +31,9 @@ const App = () => {
   }
 
   const handleClick = (event) => {
-    event.preventDefault();
-    setSearch()
+    console.log('why are we going back')
+    console.log(event.target)
+    setSearch(event.target.name)
   }
 
 
