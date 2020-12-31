@@ -13,6 +13,7 @@ const App = () => {
         const data = response.data
         console.log(data)
         setPersons(data)
+        //set the initial state to the response to the get request to the json db.. renders with component
       })
   }
   useEffect(hook, [])
@@ -52,7 +53,6 @@ const App = () => {
 
   const handleFilter = (event) => {
     setFilter(event.target.value)
-    console.log(event.target.value)
     setShowed(true)
   }
 
