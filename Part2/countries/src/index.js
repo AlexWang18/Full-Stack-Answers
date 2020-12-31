@@ -11,7 +11,7 @@ const matchSearch = (name, search) => {
 const App = () => {
   const [search, setSearch] = useState('')
   const [showSearch, hasSearched] = useState(false);
-  const [countries, setCountries] = useState([{ name: "Ubezistan", capital: "swag" }]);
+  const [countries, setCountries] = useState([]);
   
   const hook = () => {
     axios
@@ -21,14 +21,17 @@ const App = () => {
         setCountries(response.data)
       })
   }
-  useEffect(hook, [])
-  console.log(countries)
-  
 
+  useEffect(hook, [])
 
   const handleSearch = (event) => {
     setSearch(event.target.value)
     hasSearched(true)
+  }
+
+  const handleClick = (event) => {
+    event.preventDefault();
+    setSearch()
   }
 
 
@@ -40,7 +43,7 @@ const App = () => {
   return (
     <>
       <Form newSearch={search} handleSearch={handleSearch} />
-      <Countries result={showSearch ? getResults() : countries} />
+      <Countries result={showSearch ? getResults() : countries} handleClick = {handleClick} />
     </>
   )
 }
