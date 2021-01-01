@@ -1,16 +1,36 @@
 import React from 'react'
-import Button from './Button'
+import Weather from './Weather';
 
 const Country = ({c, handleClick}) => {
     return (
         <li>
-            {c.name} <Button handleShow = {handleClick} />
+            {c.name} 
+            <button onClick = {() => handleClick(c.name)}> 
+            show
+            </button>
         </li>
     )
 }
-
-const Solo = ({ single }) => { //oops was not uppercase was not recognized
-    console.log(single)
+//thers a logic error weather is initially undefined bc it is pushed into queue and waits for return statements i think
+//bc we call the weather component we run it without ever finishing the get request to server
+const Solo = ({ single, handleWeather }) => { //refactor into seperate component too long
+    const weather = handleWeather(single.name);
+    console.log(weather)
+    
+        return (
+            <>
+                <h1>{single.name}</h1>
+                <p>capital {single.capital}</p>
+                <p>population {single.population}</p>
+                <h3>languages</h3>
+                <ul>
+                    {single.languages.map(l => <Language key = {single.alpha3Code} language={l} />)}
+                </ul>
+             {/*  <img src={single.flag} alt = {single.name + ' flag'}></img>*/}   
+                <Weather weather = {weather}/> 
+            </>
+        )
+    
     return (
         <>
             <h1>{single.name}</h1>
@@ -18,8 +38,9 @@ const Solo = ({ single }) => { //oops was not uppercase was not recognized
             <p>population {single.population}</p>
             <h3>languages</h3>
             <ul>
-                {single.languages.map(l => <Language language={l} />)}
+                {single.languages.map(l => <Language key = {single.alpha3Code} language={l} />)}
             </ul>
+
             <img src={single.flag} alt = {single.name + ' flag'}></img>
         </>
     )
@@ -33,20 +54,21 @@ const Language = ({ language }) => {
     )
 }
 
-const Countries = ({ result, handleClick}) => {
+const Countries = ({ result, handleClick, handleWeather}) => {
     if (result.length > 10) {
         return (
-            <p>Too many matches, specify another filter</p>
+            <p>{result.length} matches, please specify a better filter</p>
         )
     }
+    
     else if (result.length === 1) {
-        console.log('only one term');
-        return <Solo single = {result[0]} />
+        console.log('only one search result');
+        return <Solo single = {result[0]} handleWeather = {handleWeather} />
     }
-
+    //b/tw 1-10
     return (
         <ul>
-            {result.map(c => <Country key={c.area} c={c} handleClick = {handleClick} />)}
+            {result.map(c => <Country key={c.alpha3Code} c={c} handleClick = {handleClick} />)}
         </ul>
     )
 }
