@@ -67,7 +67,7 @@ const App = () => {
       .then(addedPerson => {
         setPersons(persons.concat(addedPerson))
         setNewName('')
-        setMessage('Added' + addedPerson.name)
+        setMessage('Added ' + addedPerson.name)
       }
       )
 

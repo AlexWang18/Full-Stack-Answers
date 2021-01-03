@@ -9,10 +9,12 @@ const Form = (props) => {
     return (
         <form onSubmit={props.addPerson}>
             <div>
-                name: <input value={props.newName} onChange={props.handleName} />
+                <label htmlFor = "name">Name: </label>
+                <input name = "name" value={props.newName} onChange={props.handleName} />
             </div>
             <div>
-                number: <input value={props.newNum} onChange={props.handleNum} />
+                <label htmlFor = "phone">Phone number: </label>
+                <input name = "phone" type = "tel" value={props.newNum} onChange={props.handleNum} />
             </div>
             <div>
                 <button type="submit">add</button>
