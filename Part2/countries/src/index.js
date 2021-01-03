@@ -12,7 +12,6 @@ const matchSearch = (name, search) => {
   return name.match(new RegExp(search, 'i'))
 }
 
-
 const App = () => {
 
   const [search, setSearch] = useState('')
@@ -34,7 +33,7 @@ const App = () => {
 
   const handleSearch = (event) => {
     setSearch(event.target.value)
-    //weatherHook(event.target.value)
+    
     hasSearched(true)
   }
 

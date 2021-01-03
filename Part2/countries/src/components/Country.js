@@ -44,7 +44,7 @@ const Solo = ({ single }) => { //only start query if there is a single country d
 const Country = ({ c, handleClick }) => {
     return (
         <li>
-            {c.name}
+            <strong> {c.name} </strong>
             <button onClick={() => handleClick(c.name)}>
                 show
             </button>
