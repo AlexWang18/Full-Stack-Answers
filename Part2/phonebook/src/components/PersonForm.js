@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React from 'react'
 
 /* I tried to declare event handlers inside this seperate class but had difficulty than returning the 
 //state of the persons back to the App component to render, forced to pass them as props so they can be shared across components

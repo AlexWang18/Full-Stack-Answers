@@ -1,18 +1,20 @@
 import React, { useState, useEffect } from 'react'
 import ReactDOM from 'react-dom'
+
 import PersonForm, { Form } from './components/PersonForm'
 import Persons from './components/DisplayPersons'
 import Filter from './components/Filter'
-import axios from 'axios'
+
+import BookServices from './components/BookServices'
+
 
 const App = () => {
+
   const hook = () => {
-    axios
-      .get('http://localhost:3001/persons')
-      .then(response => {
-        const data = response.data
-        console.log(data)
-        setPersons(data)
+    BookServices
+      .getAll()
+      .then(people => {
+        setPersons(people)
         //set the initial state to the response to the get request to the json db.. renders with component
       })
   }
@@ -46,17 +48,23 @@ const App = () => {
       number: newNum,
       id: persons.length + 1
     }
-    console.log(newName, newNum)
-    setPersons(persons.concat(personObj))
-    setNewName('') //resets the value of input
+    BookServices
+      .addP(personObj)
+      .then(addedPerson => {
+        setPersons(persons.concat(addedPerson))
+        setNewName('')
+      }
+      )
+
   }
 
   const handleFilter = (event) => {
     setFilter(event.target.value)
     setShowed(true)
   }
-
   const filterMatch = new RegExp(filter, 'i')
+
+
   return (
     <div>
       <h2>Phonebook</h2>
