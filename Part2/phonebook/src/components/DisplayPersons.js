@@ -1,32 +1,26 @@
-import BookServices from "./BookServices"
 
-const Person = ({ name, number, id}) => {
+const Button = ({ id, handleClick }) => {
+
+    return (
+        <button onClick={() => handleClick(id)} >delete</button>
+    )
+}
+
+const Person = ({ name, number, id, handleDelete }) => {
     return (
         <li>
-            {name} {number} {<Button name = {name} id = {id}/>}
+            {name} {number} {<Button name={name} id={id} handleClick={handleDelete} />}
         </li>
     )
 }
 
-const Button = ({ name, id }) => {
-    const handleClick = () => {
-        if (window.confirm(`Delete ${name} ?`)) {
-            BookServices.deleteP(id)
-            //does not refresh in current persons page
-        }
-    }
-  
-    return (
-        <button onClick = {handleClick} >delete</button>
-    )
-  }
-
-const Persons = ({ persons }) => {
+const Persons = ({ persons, handleDelete }) => {
     return (
         <ul>
-            {persons.map(p => <Person key={p.name} name={p.name} number={p.number} id = {p.id}/>)}
+            {persons.map(p => <Person key={p.id} name={p.name} number={p.number} id={p.id} handleDelete={handleDelete} />)}
         </ul>
     )
 }
+
 //i can export a single component
 export default Persons
