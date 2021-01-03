@@ -15,9 +15,9 @@ const Footer = () => {
   }
 
   return (
-    <div style = {footerStyle}>
-      <br/>
-      <em>Note app, Alex Wang</em>
+    <div style={footerStyle}>
+      <br />
+      <em>Note app by Alex Wang</em>
     </div>
   )
 }
@@ -30,7 +30,7 @@ const App = (props) => {
   const [notes, setNotes] = useState([]);
   const [newNote, setNewNote] = useState("a new note...");
   const [showAll, setShowAll] = useState(true);
-  const [errorMessage, setErrorMessage ] = useState('some error occured')
+  const [errorMessage, setErrorMessage] = useState('place holder some error occured')
 
 
   const loadDataHook = () => {
@@ -50,15 +50,14 @@ const App = (props) => {
       date: new Date().toISOString(),
       important: Math.random() > 0.5,
     };
-    
+
     NoteService
       .create(noteObject)
       .then(createdNote => {
         console.log(createdNote)
         setNotes(notes.concat(createdNote))
         setNewNote('') //blank field
-      }
-      )
+      })
   }
 
   const handleNoteChange = (event) => {
@@ -91,14 +90,14 @@ const App = (props) => {
   };
 
   const handleClear = () => {
-    NoteService.clear()
-    notesToShow();
+    NoteService.clear(notes.length)
+    setNotes([])
   };
 
   return (
     <div>
       <h1>Notes</h1>
-      <Notification message = {errorMessage}/>
+      <Notification message={errorMessage} />
       <Button
         event={handleShowClick}
         text={showAll ? "show important" : "show all"} />

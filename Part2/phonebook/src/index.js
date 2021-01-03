@@ -3,11 +3,12 @@ import ReactDOM from 'react-dom'
 
 import './index.css'
 
-import PersonForm, { Form } from './components/PersonForm'
+import { Form } from './components/PersonForm'
 import Persons from './components/DisplayPersons'
 import Filter from './components/Filter'
+import { Message, Error } from './components/Notification'
 
-import BookServices from './components/BookServices'
+import BookServices from './services/BookServices'
 
 const App = () => {
 
@@ -26,6 +27,8 @@ const App = () => {
   const [newNum, setNewNum] = useState("000-000-0000")
   const [filter, setFilter] = useState('')
   const [showFilter, setShowed] = useState(false)
+  const [message, setMessage] = useState(null)
+  const [error, setError] = useState(null)
 
   const handleNewName = (event) => {
     setNewName(event.target.value)
@@ -38,16 +41,16 @@ const App = () => {
   const addPerson = (event) => {
     event.preventDefault();
 
-    if(newName === ''){
+    if (newName === '') {
       window.alert('Cannot have a blank name')
       return;
     }
     if (persons.some(p => p.name === newName)) {
 
       const choice = window.confirm(`${newName} is already added to phonebook, replace the old number with the new one?`)
-      if(choice){
+      if (choice) {
         const person = persons.find(p => p.name === newName)
-        const changedPerson = {...person, number: newNum }
+        const changedPerson = { ...person, number: newNum }
         replacePerson(person.id, changedPerson)
       }
       return;
@@ -64,17 +67,24 @@ const App = () => {
       .then(addedPerson => {
         setPersons(persons.concat(addedPerson))
         setNewName('')
+        setMessage('Added' + addedPerson.name)
       }
       )
 
   }
   const replacePerson = (id, changedPerson) => {
     BookServices
-    .replace(id, changedPerson)
-    .then(updatedPerson => {
-      console.log(updatedPerson)
-      setPersons(persons.map(p => p.id !== id ? p : updatedPerson))
-    })
+      .replace(id, changedPerson)
+      .then(updatedPerson => {
+        console.log(updatedPerson)
+        setPersons(persons.map(p => p.id !== id ? p : updatedPerson))
+        setMessage('Updated ' + updatedPerson.name)
+      })
+      .catch(e => {
+        console.log(e)
+        setError(`Cannot update, information of ${changedPerson.name} has already been removed from server `)
+        setPersons(persons.filter(p => p.id !== id))
+      })
   }
 
   const handleFilter = (event) => {
@@ -82,24 +92,25 @@ const App = () => {
     setShowed(true)
   }
   const filterMatch = new RegExp(filter, 'i')
-  
 
 
   const handleDelete = (id) => { //need to put updating in main component generally, or else it is rough to update the state
     const personTD = persons.find(p => p.id === id)
-    if(window.confirm(`Delete ${personTD.name}?`)){
+    if (window.confirm(`Delete ${personTD.name}?`)) {
       BookServices
-      .deleteP(id)
-      .then(() => {
-        setPersons(persons.filter(p => p !== personTD))
-      })
+        .deleteP(id)
+        .then(() => {
+          setPersons(persons.filter(p => p !== personTD))
+          setMessage(`Deleted ${personTD.name}`)
+        })
     }
   }
 
   return (
     <div>
       <h2>Phonebook</h2>
-
+      <Message text={message} />
+      <Error text={error} />
       <Filter filter={filter} filterHandler={handleFilter} />
       <h2>Add a new entry</h2>
       <Form addPerson={addPerson}
@@ -109,7 +120,7 @@ const App = () => {
       <h2>Numbers</h2>
       <Persons persons={showFilter ?
         persons.filter(p => p.name.match(filterMatch) || p.number.match(filterMatch))
-        : persons} handleDelete = {handleDelete}/>
+        : persons} handleDelete={handleDelete} />
     </div>
   )
 }

@@ -24,12 +24,11 @@ const update = (id, changedNote) => {
     return axios.put(`${baseURL}/${id}`, changedNote).then(response => response.data)
 }
 
-const clear = () => {
-    const data = {
-        //key value pairs of th enotes?
+const clear = (len) => {
+    for(let i = 1; i <= len; i++){
+        axios
+        .delete(baseURL+'/'+i)
     }
-
-    axios.delete(baseURL)
 }
 
 const ns = {
