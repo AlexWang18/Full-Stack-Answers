@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import ReactDOM from 'react-dom'
 
+import './index.css'
+
 import PersonForm, { Form } from './components/PersonForm'
 import Persons from './components/DisplayPersons'
 import Filter from './components/Filter'
@@ -35,7 +37,7 @@ const App = () => {
 
   const addPerson = (event) => {
     event.preventDefault();
-    
+
     if(newName === ''){
       window.alert('Cannot have a blank name')
       return;
